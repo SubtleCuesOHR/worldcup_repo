@@ -1,3 +1,6 @@
 Flask==3.0.3
 requests==2.32.3
 python-dotenv==1.0.1
+gunicorn==23.0.0
+# Postgres driver — only needed on the (Linux) host; local dev uses SQLite.
+psycopg[binary]==3.2.3; sys_platform == "linux"

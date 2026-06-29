@@ -28,6 +28,11 @@ COMPETITION = "WC"  # FIFA World Cup
 SAMPLE_DIR = Path(__file__).parent / "sample_data"
 DB_PATH = Path(__file__).parent / "predictions.db"
 
+# Use Postgres when DATABASE_URL is provided (e.g. Render's managed Postgres,
+# which persists across restarts), otherwise fall back to a local SQLite file.
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+USE_PG = bool(DATABASE_URL)
+
 # Scoring: exact score is worth more than just calling the result.
 POINTS_EXACT = 3
 POINTS_RESULT = 1
@@ -81,14 +86,43 @@ def _fetch(endpoint: str, sample_name: str) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Database (SQLite) — one prediction per (player, match), upsertable while open.
+# Database — Postgres when DATABASE_URL is set (persistent), else local SQLite.
+# One prediction per (player, match), upsertable while the match is open.
 # ---------------------------------------------------------------------------
 
-def get_db() -> sqlite3.Connection:
+def _connect():
+    """Open a new DB connection with dict-style row access."""
+    if USE_PG:
+        import psycopg
+        from psycopg.rows import dict_row
+        dsn = DATABASE_URL
+        if dsn.startswith("postgres://"):  # normalise legacy scheme for libpq
+            dsn = "postgresql://" + dsn[len("postgres://"):]
+        return psycopg.connect(dsn, row_factory=dict_row)
+    con = sqlite3.connect(DB_PATH)
+    con.row_factory = sqlite3.Row
+    return con
+
+
+def get_db():
     if "db" not in g:
-        g.db = sqlite3.connect(DB_PATH)
-        g.db.row_factory = sqlite3.Row
+        g.db = _connect()
     return g.db
+
+
+def _sql(query: str) -> str:
+    """Queries are written with ? placeholders; Postgres needs %s."""
+    return query.replace("?", "%s") if USE_PG else query
+
+
+def db_query(query: str, params=()):
+    return get_db().execute(_sql(query), params).fetchall()
+
+
+def db_write(query: str, params=()):
+    db = get_db()
+    db.execute(_sql(query), params)
+    db.commit()
 
 
 @app.teardown_appcontext
@@ -99,7 +133,7 @@ def close_db(_exc=None):
 
 
 def init_db() -> None:
-    con = sqlite3.connect(DB_PATH)
+    con = _connect()
     con.execute(
         """
         CREATE TABLE IF NOT EXISTS predictions (
@@ -203,10 +237,10 @@ def get_predictions():
     player = (request.args.get("player") or "").strip()
     if not player:
         return jsonify({})
-    rows = get_db().execute(
+    rows = db_query(
         "SELECT match_id, pred_home, pred_away FROM predictions WHERE player = ?",
         (player,),
-    ).fetchall()
+    )
     return jsonify({
         str(r["match_id"]): {"home": r["pred_home"], "away": r["pred_away"]}
         for r in rows
@@ -247,7 +281,7 @@ def submit_prediction():
     if not is_open(match):
         return jsonify({"error": "This match has already started — picks are locked."}), 403
 
-    get_db().execute(
+    db_write(
         """
         INSERT INTO predictions (player, match_id, pred_home, pred_away, created)
         VALUES (?, ?, ?, ?, ?)
@@ -258,7 +292,6 @@ def submit_prediction():
         """,
         (player, match_id, home, away, datetime.now(timezone.utc).isoformat()),
     )
-    get_db().commit()
     return jsonify({"ok": True})
 
 
@@ -266,9 +299,7 @@ def submit_prediction():
 def leaderboard():
     """Score every prediction against finished matches and rank players."""
     by_id = _matches_by_id()
-    rows = get_db().execute(
-        "SELECT player, match_id, pred_home, pred_away FROM predictions"
-    ).fetchall()
+    rows = db_query("SELECT player, match_id, pred_home, pred_away FROM predictions")
 
     board: dict[str, dict] = {}
     for r in rows:
@@ -292,6 +323,10 @@ def leaderboard():
     return jsonify({"leaderboard": ranked, "scoring": {"exact": POINTS_EXACT, "result": POINTS_RESULT}})
 
 
+# Ensure the table exists on import too, so production WSGI servers
+# (gunicorn / PythonAnywhere) that never run __main__ still initialise it.
+init_db()
+
+
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True, port=5000)
