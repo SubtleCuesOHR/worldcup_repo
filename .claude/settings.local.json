@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m pip install -q -r requirements.txt)",
+      "Bash(echo \"exit: $?\")"
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "competition": { "name": "FIFA World Cup", "code": "WC", "emblem": "" },
+  "season": { "startDate": "2026-06-11", "endDate": "2026-07-19" },
+  "standings": [
+    {
+      "stage": "GROUP_STAGE",
+      "type": "TOTAL",
+      "group": "GROUP_A",
+      "table": [
+        { "position": 1, "team": { "name": "Mexico", "tla": "MEX", "crest": "" }, "playedGames": 3, "won": 2, "draw": 1, "lost": 0, "points": 7, "goalsFor": 6, "goalsAgainst": 2, "goalDifference": 4 },
+        { "position": 2, "team": { "name": "Canada", "tla": "CAN", "crest": "" }, "playedGames": 3, "won": 1, "draw": 1, "lost": 1, "points": 4, "goalsFor": 4, "goalsAgainst": 4, "goalDifference": 0 },
+        { "position": 3, "team": { "name": "Croatia", "tla": "CRO", "crest": "" }, "playedGames": 3, "won": 1, "draw": 1, "lost": 1, "points": 4, "goalsFor": 3, "goalsAgainst": 3, "goalDifference": 0 },
+        { "position": 4, "team": { "name": "Morocco", "tla": "MAR", "crest": "" }, "playedGames": 3, "won": 0, "draw": 1, "lost": 2, "points": 1, "goalsFor": 2, "goalsAgainst": 6, "goalDifference": -4 }
+      ]
+    },
+    {
+      "stage": "GROUP_STAGE",
+      "type": "TOTAL",
+      "group": "GROUP_B",
+      "table": [
+        { "position": 1, "team": { "name": "USA", "tla": "USA", "crest": "" }, "playedGames": 3, "won": 3, "draw": 0, "lost": 0, "points": 9, "goalsFor": 7, "goalsAgainst": 1, "goalDifference": 6 },
+        { "position": 2, "team": { "name": "England", "tla": "ENG", "crest": "" }, "playedGames": 3, "won": 2, "draw": 0, "lost": 1, "points": 6, "goalsFor": 5, "goalsAgainst": 3, "goalDifference": 2 },
+        { "position": 3, "team": { "name": "Senegal", "tla": "SEN", "crest": "" }, "playedGames": 3, "won": 1, "draw": 0, "lost": 2, "points": 3, "goalsFor": 3, "goalsAgainst": 5, "goalDifference": -2 },
+        { "position": 4, "team": { "name": "Japan", "tla": "JPN", "crest": "" }, "playedGames": 3, "won": 0, "draw": 0, "lost": 3, "points": 0, "goalsFor": 2, "goalsAgainst": 8, "goalDifference": -6 }
+      ]
+    },
+    {
+      "stage": "GROUP_STAGE",
+      "type": "TOTAL",
+      "group": "GROUP_C",
+      "table": [
+        { "position": 1, "team": { "name": "Argentina", "tla": "ARG", "crest": "" }, "playedGames": 3, "won": 2, "draw": 1, "lost": 0, "points": 7, "goalsFor": 8, "goalsAgainst": 3, "goalDifference": 5 },
+        { "position": 2, "team": { "name": "Germany", "tla": "GER", "crest": "" }, "playedGames": 3, "won": 2, "draw": 0, "lost": 1, "points": 6, "goalsFor": 6, "goalsAgainst": 4, "goalDifference": 2 },
+        { "position": 3, "team": { "name": "Nigeria", "tla": "NGA", "crest": "" }, "playedGames": 3, "won": 1, "draw": 0, "lost": 2, "points": 3, "goalsFor": 4, "goalsAgainst": 5, "goalDifference": -1 },
+        { "position": 4, "team": { "name": "Australia", "tla": "AUS", "crest": "" }, "playedGames": 3, "won": 0, "draw": 1, "lost": 2, "points": 1, "goalsFor": 2, "goalsAgainst": 8, "goalDifference": -6 }
+      ]
+    }
+  ]
+}

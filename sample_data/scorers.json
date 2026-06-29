@@ -1,0 +1,12 @@
+{
+  "scorers": [
+    { "player": { "name": "Lionel Messi" }, "team": { "name": "Argentina", "tla": "ARG" }, "goals": 5, "assists": 2 },
+    { "player": { "name": "Christian Pulisic" }, "team": { "name": "USA", "tla": "USA" }, "goals": 4, "assists": 1 },
+    { "player": { "name": "Harry Kane" }, "team": { "name": "England", "tla": "ENG" }, "goals": 4, "assists": 0 },
+    { "player": { "name": "Kai Havertz" }, "team": { "name": "Germany", "tla": "GER" }, "goals": 3, "assists": 2 },
+    { "player": { "name": "Hirving Lozano" }, "team": { "name": "Mexico", "tla": "MEX" }, "goals": 3, "assists": 1 },
+    { "player": { "name": "Victor Osimhen" }, "team": { "name": "Nigeria", "tla": "NGA" }, "goals": 3, "assists": 0 },
+    { "player": { "name": "Jonathan David" }, "team": { "name": "Canada", "tla": "CAN" }, "goals": 2, "assists": 2 },
+    { "player": { "name": "Sadio Mane" }, "team": { "name": "Senegal", "tla": "SEN" }, "goals": 2, "assists": 1 }
+  ]
+}

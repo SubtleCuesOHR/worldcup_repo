@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 World Cup Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="ball">⚽</span>
+      <div>
+        <h1>FIFA World Cup 2026</h1>
+        <p class="sub">USA · Canada · Mexico — Live Dashboard</p>
+      </div>
+    </div>
+    <div class="source" id="source-badge">…</div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="matches">Matches</button>
+    <button class="tab" data-tab="pickem">Pick'em</button>
+    <button class="tab" data-tab="leaderboard">Leaderboard</button>
+    <button class="tab" data-tab="standings">Group Standings</button>
+    <button class="tab" data-tab="scorers">Top Scorers</button>
+  </nav>
+
+  <main>
+    <section id="matches" class="panel active"><div class="loading">Loading matches…</div></section>
+
+    <section id="pickem" class="panel">
+      <div class="player-bar">
+        <label>Your name:
+          <input id="player-name" type="text" placeholder="e.g. Finn" maxlength="24" />
+        </label>
+        <span class="hint">Predict scores before kickoff — picks lock when the match starts. Exact score = 3 pts, correct result = 1 pt.</span>
+      </div>
+      <div id="pickem-list"><div class="loading">Loading fixtures…</div></div>
+    </section>
+
+    <section id="leaderboard" class="panel"><div class="loading">Loading leaderboard…</div></section>
+
+    <section id="standings" class="panel"><div class="loading">Loading standings…</div></section>
+    <section id="scorers" class="panel"><div class="loading">Loading scorers…</div></section>
+  </main>
+
+  <footer>
+    Data: <a href="https://www.football-data.org" target="_blank" rel="noopener">football-data.org</a>
+    · Refreshes every 60s
+  </footer>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
