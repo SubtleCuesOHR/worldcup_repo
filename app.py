@@ -329,4 +329,7 @@ init_db()
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    # Bind to 0.0.0.0 and honour $PORT so the app works on hosts (e.g. Render)
+    # that run "python app.py" directly. Debug only when running locally.
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug="PORT" not in os.environ)
